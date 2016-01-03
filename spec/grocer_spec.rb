@@ -1,3 +1,5 @@
+
+
 describe "Grocer" do
   let(:items) do
     [
@@ -89,7 +91,7 @@ describe "Grocer" do
         cheese_coupon = find_coupon("CHEESE")
 
         cheese_result = apply_coupons(cart: consolidated_cart, coupons: [cheese_coupon])
-        
+
         expect(cheese_result["CHEESE"][:price]).to eq(6.50)
         expect(cheese_result["CHEESE"][:count]).to eq(2)
         expect(cheese_result["CHEESE W/COUPON"][:price]).to eq(15.00)
@@ -97,14 +99,14 @@ describe "Grocer" do
         expect(cheese_result["CHEESE W/COUPON"][:clearance]).to eq(false)
       end
 
-      it "doesn't break if the coupon doesn't apply to any items" do 
+      it "doesn't break if the coupon doesn't apply to any items" do
         cheese = find_item('CHEESE')
         cart = Array.new(2, cheese)
         consolidated_cart = consolidate_cart(cart: cart)
 
         irrelevant = apply_coupons(cart: consolidated_cart, coupons: [find_coupon("AVOCADO")])
         expect(irrelevant["CHEESE"][:price]).to eq(6.50)
-        expect(irrelevant["CHEESE"][:count]).to eq(2)  
+        expect(irrelevant["CHEESE"][:count]).to eq(2)
         expect(irrelevant.keys).to_not include("AVOCADO W/COUPON")
         expect(irrelevant.keys).to_not include("AVOCADO")
       end
@@ -136,7 +138,7 @@ describe "Grocer" do
         consolidated_cart = consolidate_cart(cart: cart)
         no_coupon_result = apply_coupons(cart: consolidated_cart, coupons: [])
         expect(no_coupon_result["CHEESE"][:price]).to eq(6.50)
-        expect(no_coupon_result["CHEESE"][:count]).to eq(2)  
+        expect(no_coupon_result["CHEESE"][:count]).to eq(2)
       end
 
       it "can increment coupon count if two are applied" do
@@ -171,10 +173,10 @@ describe "Grocer" do
       end
     end
   end
-  
+
   describe "#checkout" do
 
-    describe "base case (no clearance, no coupons)" do 
+    describe "base case (no clearance, no coupons)" do
       it "calls on #consolidate_cart before calculating the total for one item" do
         cart = [find_item('BEETS')]
         result = consolidate_cart(cart: cart)
@@ -258,7 +260,7 @@ describe "Grocer" do
         expect(self).to receive(:consolidate_cart).with(cart: cart).and_return(result)
         expect(checkout(cart: cart, coupons: [])).to eq(5.00)
       end
-    end    
+    end
 
     describe "coupons:" do
 
